@@ -1,24 +1,53 @@
+import React, {useState, useEffect} from 'react'
 import logo from './logo.svg';
 import './App.css';
+import CovidData from './components/CovidData';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import TableData from './components/TableData';
 
 function App() {
+  let [covidData, setCovidData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const API_URL = `https://api.covid19api.com/live/country/usa/status/confirmed/date/2020-03-21T13:13:30Z`
+  
+  useEffect(() => {
+      setLoading(true)
+      fetch(API_URL)
+      .then(res => {
+          console.log('in res', res)
+          return res.json()
+      })
+      .then(data => {
+        // Filters data from 22.09 date
+          setCovidData(data.filter((item, index) => {
+              if(index >= 4896) return item
+          }))
+      })
+      .catch(error => {
+          console.log('in error', error)
+          setError(error)
+      })
+  },[])
+
+  console.log({covidData})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path='/'>
+          <CovidData covidData={covidData} />
+        </Route>
+        <Route path='/table'>
+          <TableData covidData={covidData} setCovidData={setCovidData} />
+        </Route>
+      </Switch>
+     </Router>
   );
 }
 
