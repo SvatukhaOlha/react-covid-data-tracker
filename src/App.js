@@ -20,17 +20,19 @@ function App() {
       setLoading(true)
       fetch(API_URL)
       .then(res => {
-          console.log('in res', res)
+          // console.log('in res', res)
           return res.json()
       })
       .then(data => {
-        // Filters data from 22.09 date
-          setCovidData(data.filter((item, index) => {
-              if(index >= 4896) return item
-          }))
+        // Filters data from taday's date
+          setCovidData(data.filter(el => {
+            const today = new Date().toISOString().slice(0, -14);
+            return today ===  el.Date.slice(0,-10)
+            }
+          ))
       })
       .catch(error => {
-          console.log('in error', error)
+          // console.log('in error', error)
           setError(error)
       })
   },[])

@@ -27,7 +27,7 @@ function CovidData({covidData}) {
 
 //   Shows max 10 countries per page
   const maxResultPerPage = covidData.slice((page*10)-10, (page*10) - 1)
-   
+  
   return (
     <Container maxWidth='sm' className='container'>
       <MenuBtn />

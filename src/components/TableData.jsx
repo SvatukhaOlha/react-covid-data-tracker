@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Table, TableBody, TableContainer, 
     TableHead, TableRow, Paper, TableCell, Container} from '@mui/material/';
 import {Link} from "react-router-dom";
+
 function TableData({covidData, setCovidData}) {
     const [direction, setDirection] = useState(null) //direction for sort
 
@@ -15,8 +16,7 @@ function TableData({covidData, setCovidData}) {
         }
       })
       setCovidData(sortedData);
-    }
-      
+    } 
     return (
     <Container maxWidth='md' className='container'>
       <Link to='/'  className='btn'>Go Back</Link>
@@ -34,22 +34,22 @@ function TableData({covidData, setCovidData}) {
             </TableCell>
             <TableCell align="right">Confirmed
                 {direction === 'up' ? (
-                  <button className='sort' onClick={() => sortBy('Active')}>↑</button>)
-                : (<button className='sort' onClick={() => sortBy('Active')}>↓</button>)
+                  <button className='sort' onClick={() => sortBy('Confirmed')}>↑</button>)
+                : (<button className='sort' onClick={() => sortBy('Confirmed')}>↓</button>)
                 } 
             </TableCell>
-            <TableCell align="right">Death
+            <TableCell align="right">Deaths
                 {direction === 'up' ? (
-                  <button className='sort' onClick={() => sortBy('Active')}>↑</button>)
-                : (<button className='sort' onClick={() => sortBy('Active')}>↓</button>)
+                  <button className='sort' onClick={() => sortBy('Deaths')}>↑</button>)
+                : (<button className='sort' onClick={() => sortBy('Deaths')}>↓</button>)
                 } 
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {covidData.map((row, i) => (
+          {covidData.map(row => (
             <TableRow
-              key={row.Province + i}
+              key={row.Province}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
